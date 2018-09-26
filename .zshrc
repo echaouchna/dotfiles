@@ -80,6 +80,7 @@ plugins=(
   git-extras
   nvm
   colored-man-pages
+  man
   per-directory-history
   command-not-found
   vault
