@@ -128,9 +128,9 @@
 		<key>Color Space</key>
 		<string>sRGB</string>
 		<key>Green Component</key>
-		<real>0.90588235855102539</real>
+		<real>0.82811599969863892</real>
 		<key>Red Component</key>
-		<real>0.89803922176361084</real>
+		<real>0.90588235855102539</real>
 	</dict>
 	<key>Ansi 4 Color</key>
 	<dict>
