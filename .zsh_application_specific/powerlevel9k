@@ -7,7 +7,7 @@ POWERLEVEL9K_EXECUTION_TIME_ICON=''
 
 zsh_custom_kube_ps1(){
   local RED_SEQ="\e[91m"
-  echo -n "$(_kube_ps1_symbol)$KUBE_PS1_SEPERATOR$KUBE_PS1_CONTEXT$RED_SEQ$KUBE_PS1_DIVIDER$KUBE_PS1_NAMESPACE"
+  echo -n "$(_kube_ps1_symbol) ${KUBE_PS1_SEPERATOR}${KUBE_PS1_CONTEXT}${RED_SEQ}${KUBE_PS1_DIVIDER}${KUBE_PS1_NAMESPACE}"
 }
 POWERLEVEL9K_CUSTOM_KUBE_PS1="zsh_custom_kube_ps1"
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir custom_kube_ps1 rbenv vcs)

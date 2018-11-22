@@ -84,6 +84,7 @@ plugins=(
   per-directory-history
   command-not-found
   vault
+  terraform
 )
 
 plugins+=(k alias-tips zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
