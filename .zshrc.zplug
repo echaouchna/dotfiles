@@ -1,0 +1,125 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+export EDITOR="vim"
+
+export HISTSIZE=99999999999
+export SAVEHIST=$HISTSIZE
+
+# Don't store ts and duration of the execution.
+setopt EXTENDED_HISTORY
+
+# Write to the history file immediately, not when the shell exits.
+setopt INC_APPEND_HISTORY
+
+# Share history between all sessions.
+setopt SHARE_HISTORY
+
+# Do not display a line previously found.
+setopt HIST_FIND_NO_DUPS
+
+# Don't record an entry starting with a space.
+setopt HIST_IGNORE_SPACE
+
+# Don't write duplicate entries in the history file.
+setopt HIST_SAVE_NO_DUPS
+
+# Remove superfluous blanks before recording entry.
+setopt HIST_REDUCE_BLANKS
+
+function take() {
+    mkdir -p $@ && cd ${@:$#}
+}
+
+function growl() {
+    terminal-notifier -title "Psssssst !!" -subtitle "A message from your shell:" -message "$@"
+}
+
+function sgrowl() {
+    growl "$@"
+    say "$@"
+}
+
+function update_all() {
+    zplug update && growl "zplug update finished"
+    brew update && brew upgrade && brew cask upgrade --greedy && growl "brew update finished"
+    nvim +silent +VimEnter +PlugUpgrade +qall && growl "vim plug upgrade finished"
+    nvim +silent +VimEnter +PlugUpdate +qall && growl "vim plug update finished"
+}
+
+alias vim='nvim'
+alias cat="bat -pp"
+alias ls='ls -G'
+alias code='code-insiders'
+alias change='vim ~/.zshrc'
+alias update='source ~/.zshrc'
+alias dircolors='gdircolors'
+
+# zplug
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
+
+# plugins
+
+# load nice libs from oh-my-zsh
+zplug "lib/completion",   from:oh-my-zsh
+zplug "lib/history",      from:oh-my-zsh
+zplug "lib/key-bindings", from:oh-my-zsh
+zplug "lib/termsupport",  from:oh-my-zsh
+zplug "lib/directories",  from:oh-my-zsh
+zplug "plugins/git", from:oh-my-zsh
+zplug "plugins/sudo", from:oh-my-zsh
+zplug "plugins/terraform", from:oh-my-zsh
+zplug "plugins/kubectl", from:oh-my-zsh
+zplug "plugins/docker", from:oh-my-zsh
+zplug "plugins/z", from:oh-my-zsh
+zplug "plugins/python", from:oh-my-zsh
+zplug "plugins/per-directory-history", from:oh-my-zsh
+
+
+# zplug "zsh-users/zsh-syntax-highlighting"
+# zplug "b4b4r07/enhancd", use:init.sh
+# zplug "woefe/wbase.zsh"
+zplug "echaouchna/wbase.zsh"
+#zplug "djui/alias-tips"
+zplug "sei40kr/fast-alias-tips-bin", from:gh-r, as:command, rename-to:def-matcher
+zplug "sei40kr/zsh-fast-alias-tips"
+zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf, use:"*darwin*amd64*"
+zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
+zplug "zsh-users/zsh-history-substring-search", defer:3
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-autosuggestions"
+zplug "oz/safe-paste" # Don't execute lines when pasting
+zplug "romkatv/powerlevel10k", as:theme, depth:1
+zplug "voronkovich/gitignore.plugin.zsh" # gitignore.io gi() and gii()
+zplug "willghatch/zsh-saneopt" # Supposed sane options
+
+# auto-close quotes and brackets like a pro
+zplug 'hlissner/zsh-autopair', defer:2
+
+# another eyecandy
+zplug 'zdharma/fast-syntax-highlighting', defer:2, hook-load:'FAST_HIGHLIGHT=()'
+
+# finally install and load those plugins
+zplug check || zplug install
+zplug load #--verbose
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export PATH="/usr/local/sbin:$PATH"
+
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# load direnv
+eval "$(direnv hook zsh)"
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
