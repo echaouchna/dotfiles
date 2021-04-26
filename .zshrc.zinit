@@ -1,0 +1,190 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+export EDITOR="nvim"
+
+export HISTSIZE=99999999999
+export SAVEHIST=$HISTSIZE
+
+# Don't store ts and duration of the execution.
+setopt EXTENDED_HISTORY
+
+# Write to the history file immediately, not when the shell exits.
+setopt INC_APPEND_HISTORY
+
+# Share history between all sessions.
+setopt SHARE_HISTORY
+
+# Do not display a line previously found.
+setopt HIST_FIND_NO_DUPS
+
+# Don't record an entry starting with a space.
+setopt HIST_IGNORE_SPACE
+
+# Don't write duplicate entries in the history file.
+setopt HIST_SAVE_NO_DUPS
+
+# Remove superfluous blanks before recording entry.
+setopt HIST_REDUCE_BLANKS
+
+function take() {
+    mkdir -p $@ && cd ${@:$#}
+}
+
+function growl() {
+    terminal-notifier -title "Psssssst !!" -subtitle "A message from your shell:" -message "$@"
+}
+
+function sgrowl() {
+    growl "$@"
+    say "$@"
+}
+
+function shch() {
+    curl https://cheat.sh/$1
+}
+
+function update_all() {
+    zinit self-update
+    zinit update --all; growl "zinit update finished"
+    brew update && brew upgrade && brew upgrade --greedy && growl "brew update finished"
+    nvim +silent +PlugUpgrade +PlugUpdate +qall && growl "vim plug update finished"
+}
+
+alias vim='nvim'
+alias cat="bat -pp"
+alias ls='ls -G'
+# alias code='code-insiders'
+alias change='vim ~/.zshrc'
+alias update='source ~/.zshrc'
+alias dircolors='gdircolors'
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+#################################################################
+# FUNCTIONS TO MAKE CONFIGURATION LESS VERBOSE
+#
+
+turbo0()   { zinit ice wait"0a" lucid             "${@}"; }
+turbo1()   { zinit ice wait"0b" lucid             "${@}"; }
+turbo2()   { zinit ice wait"0c" lucid             "${@}"; }
+zcommand() { zinit ice wait"0b" lucid as"command" "${@}"; }
+zload()    { zinit load                           "${@}"; }
+zsnippet() { zinit snippet                        "${@}"; }
+
+source "$HOME/.zinit/bin/zinit.zsh"
+# autoload -Uz _zinit
+# (( ${+_comps} )) && _comps[zinit]=_zinit
+
+autoload -Uz compinit
+(( ${+_comps} )) && _comps[zplugin]=_zplugin
+compinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-bin-gem-node
+
+### End of Zinit's installer chunk
+
+setopt promptsubst
+
+zsnippet OMZL::completion.zsh
+zsnippet OMZL::history.zsh
+zsnippet OMZL::key-bindings.zsh
+zsnippet OMZL::termsupport.zsh
+zsnippet OMZL::directories.zsh
+zsnippet OMZL::git.zsh
+# zinit ice as"completion"
+# zsnippet OMZP::git
+zsnippet OMZP::git
+zsnippet OMZP::sudo
+# zinit ice as"completion"
+# zsnippet OMZP::kubectl
+zsnippet OMZP::kubectl
+# zinit ice as"completion"
+zsnippet OMZP::docker/_docker
+# zinit ice as"completion"
+zsnippet OMZP::python
+# zsnippet OMZP::terraform
+zsnippet OMZP::gpg-agent
+zsnippet OMZP::per-directory-history/per-directory-history.zsh
+
+# zinit cdclear -q
+
+
+zinit light "echaouchna/wbase.zsh"
+zinit ice from"gh-r" as"program" mv"def-matcher* -> def-matcher"
+zinit light "sei40kr/fast-alias-tips-bin"
+zinit light "sei40kr/zsh-fast-alias-tips"
+zinit ice from"gh-r" as"program" mv"fzf* -> fzf" bpick"*darwin*amd64*"
+zinit light "junegunn/fzf-bin"
+# zinit light "junegunn/fzf"
+turbo0 multisrc"shell/{completion,key-bindings}.zsh" \
+        id-as"junegunn/fzf_completions" pick"/dev/null"
+    zload junegunn/fzf
+zinit light "zsh-users/zsh-history-substring-search"
+zinit light "zsh-users/zsh-completions"
+zinit light "zsh-users/zsh-autosuggestions"
+zinit light "oz/safe-paste" # Don't execute lines when pasting
+zinit light "romkatv/powerlevel10k"
+zinit light "voronkovich/gitignore.plugin.zsh" # gitignore.io gi() and gii()
+zinit light "willghatch/zsh-saneopt" # Supposed sane options
+zinit light "oz/safe-paste" # Don't execute lines when pasting
+zinit light rupa/z
+zinit light "jsporna/terraform-zsh-plugin"
+zinit light Aloxaf/fzf-tab
+zinit wait lucid for \
+    "changyuheng/fz"
+
+# auto-close quotes and brackets like a pro
+zinit light 'hlissner/zsh-autopair'
+
+# another eyecandy
+# zinit light 'zdharma/fast-syntax-highlighting'
+zinit ice from"gh" wait"0c" atinit"zpcompinit; zpcdreplay" lucid
+zinit light zdharma/fast-syntax-highlighting
+
+zinit cdreplay -q # <- execute compdefs provided by rest of plugins
+# zinit cdlist # look at gathered compdefs
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export PATH="/usr/local/sbin:$PATH"
+
+# bindkey "$terminfo[kcuu1]" history-substring-search-up
+# bindkey "$terminfo[kcud1]" history-substring-search-down
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+# load direnv
+eval "$(direnv hook zsh)"
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+export CLOUDSDK_PYTHON="/usr/local/opt/python@3.8/libexec/bin/python"
+source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+
+alias tunnel='sshuttle -r pi1 0/0'
+alias tunnel_dns='sshuttle --dns -r pi1 0/0'
+alias reset_tunnel='sudo ipfw -q -f flush'
+export PATH="/usr/local/opt/ssh-copy-id/bin:$PATH"
+export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"

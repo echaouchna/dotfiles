@@ -5,7 +5,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export EDITOR="vim"
+export EDITOR="nvim"
 
 export HISTSIZE=99999999999
 export SAVEHIST=$HISTSIZE
@@ -44,17 +44,21 @@ function sgrowl() {
     say "$@"
 }
 
+function shch() {
+    curl https://cheat.sh/$1
+}
+
 function update_all() {
     zplug update && growl "zplug update finished"
-    brew update && brew upgrade && brew cask upgrade --greedy && growl "brew update finished"
-    nvim +silent +VimEnter +PlugUpgrade +qall && growl "vim plug upgrade finished"
-    nvim +silent +VimEnter +PlugUpdate +qall && growl "vim plug update finished"
+    brew update && brew upgrade && brew upgrade --greedy && growl "brew update finished"
+    nvim +silent +PlugUpgrade +qall && growl "vim plug upgrade finished"
+    nvim +silent +PlugUpdate +qall && growl "vim plug update finished"
 }
 
 alias vim='nvim'
 alias cat="bat -pp"
 alias ls='ls -G'
-alias code='code-insiders'
+#alias code='code-insiders'
 alias change='vim ~/.zshrc'
 alias update='source ~/.zshrc'
 alias dircolors='gdircolors'
@@ -76,9 +80,10 @@ zplug "plugins/sudo", from:oh-my-zsh
 zplug "plugins/terraform", from:oh-my-zsh
 zplug "plugins/kubectl", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
-zplug "plugins/z", from:oh-my-zsh
+#zplug "plugins/z", from:oh-my-zsh
 zplug "plugins/python", from:oh-my-zsh
 zplug "plugins/per-directory-history", from:oh-my-zsh
+zplug "plugins/gpg-agent", from:oh-my-zsh
 
 
 # zplug "zsh-users/zsh-syntax-highlighting"
@@ -97,12 +102,16 @@ zplug "oz/safe-paste" # Don't execute lines when pasting
 zplug "romkatv/powerlevel10k", as:theme, depth:1
 zplug "voronkovich/gitignore.plugin.zsh" # gitignore.io gi() and gii()
 zplug "willghatch/zsh-saneopt" # Supposed sane options
+zplug "changyuheng/fz", defer:1
+zplug "rupa/z", use:z.sh
 
+zplug "MichaelAquilina/zsh-auto-notify"
 # auto-close quotes and brackets like a pro
 zplug 'hlissner/zsh-autopair', defer:2
 
 # another eyecandy
 zplug 'zdharma/fast-syntax-highlighting', defer:2, hook-load:'FAST_HIGHLIGHT=()'
+zplug "b4b4r07/zplug-doctor", lazy:yes, use:zplug-doctor
 
 # finally install and load those plugins
 zplug check || zplug install
@@ -123,3 +132,13 @@ export NVM_DIR="$HOME/.config/nvm"
 eval "$(direnv hook zsh)"
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+
+export CLOUDSDK_PYTHON="/usr/local/opt/python@3.8/libexec/bin/python"
+source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+
+alias tunnel='sshuttle -r pi1 0/0'
+alias tunnel_dns='sshuttle --dns -r pi1 0/0'
+alias reset_tunnel='sudo ipfw -q -f flush'
+export PATH="/usr/local/opt/ssh-copy-id/bin:$PATH"
+export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
