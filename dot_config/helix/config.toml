@@ -1,0 +1,27 @@
+theme = "catppuccin_macchiato"
+
+[editor]
+line-number = "relative"
+cursorline = true
+#rulers = [80]
+color-modes = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.indent-guides]
+render = true
+
+[editor.file-picker]
+hidden = false
+
+[editor.auto-save]
+focus-lost = true
+after-delay.enable = true
+after-delay.timeout = 10000
+
+[keys.normal]
+S-down = ["extend_to_line_bounds", "delete_selection", "paste_after"]
+S-up = ["extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before"]

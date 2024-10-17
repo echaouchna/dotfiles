@@ -1,0 +1,21 @@
+# theme = tokyonight
+# theme = light:rose-pine-dawn,dark:tokyonight
+# theme = light:xcodelight,dark:tokyonight
+# theme = light:xcodelight,dark:xcodedarkhc
+# theme = catppuccin-mocha
+theme = xcodedarkhc
+# theme = rose-pine
+# font-family = Monolisa Medium
+font-family = Berkley Mono
+font-size = 15
+background-blur-radius = 20
+mouse-hide-while-typing = true
+window-decoration = true
+keybind = global:ctrl+escape=toggle_quick_terminal
+macos-option-as-alt = left
+#copy-on-select = true
+# font-thicken = true
+keybind = cmd+left=text:\x01
+keybind = cmd+right=text:\x05
+keybind = cmd+backspace=text:\x15
+# minimum-contrast = 1.13208
