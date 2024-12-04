@@ -70,6 +70,8 @@ return {
                 "ast-grep",
                 "bash-language-server",
                 "codespell",
+                "codelldb",
+                "delve",
                 "flake8",
                 "gitlab-ci-ls",
                 "gitleaks",
@@ -97,11 +99,11 @@ return {
     {
         'neovim/nvim-lspconfig',
         opts = {
-          setup = {
-            rust_analyzer = function()
-              return true
-            end,
-          },
+            setup = {
+                rust_analyzer = function()
+                    return true
+                end,
+            },
         },
     },
     {
