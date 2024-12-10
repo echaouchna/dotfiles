@@ -15,9 +15,16 @@ set -gx GPG_TTY (tty)
 
 set -l os (uname)
 
-export PATH="/opt/homebrew/bin/:/opt/homebrew/sbin/:$HOME/.cargo/bin/:/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/:$HOME/.bin:$PATH"
+set -gx DIRENV_WARN_TIMEOUT 0
+
+export PATH="$HOME/.local/bin:/opt/homebrew/bin/:/opt/homebrew/sbin/:$HOME/.cargo/bin/:/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin/:$HOME/.bin:$PATH"
 if test "$os" = Linux
-    export PATH="/home/linuxbrew/.linuxbrew/bin/:$PATH"
+    export PATH="/home/linuxbrew/.linuxbrew/bin/:/opt/google-cloud-cli/bin:~/.bin:$PATH"
+    eval (direnv hook fish)
+    export TERM=xterm-256color
+    # set -xU MANPAGER 'sh -c "col -bx | /usr/sbin/bat -l man -p"'
+    set -xU MANPAGER 'less -R --use-color -Dd+r -Du+b'
+    set -xU MANROFFOPT '-P -c'
 end
 export EDITOR="nvim"
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
@@ -62,10 +69,17 @@ alias gloga='git log --oneline --decorate --graph --all'
 alias gqs="git quick-stats"
 alias gstp="gst --porcelain"
 alias tig="gitui"
-alias tigg="/opt/homebrew/bin/tig"
+if test "$os" = Darwin
+    alias tigg="/opt/homebrew/bin/tig"
+else
+    alias tigg="/usr/sbin/tig"
+end
 alias gb="git branch"
 alias gbs="git branch --show"
 alias gp="git push"
+alias gpfwl="git push --force-with-lease"
+alias gpf="git push --force-with-lease"
+alias gpfwol="git push --force"
 
 # just
 alias j="just"
@@ -102,6 +116,7 @@ alias kdelf="kubectl delete -f"
 # terraform
 alias tf="terraform"
 alias tfi="terraform init"
+alias tfget="terraform get"
 alias tfa="terraform apply"
 alias tfa!="terraform apply -auto-approve"
 alias tfp="terraform plan"
@@ -179,6 +194,7 @@ function reload
 end
 
 function reload_tips
+    reload
     __abbr_tips_init
 end
 
@@ -203,4 +219,15 @@ end
 function _tide_item_kubectl
     get_cluster_name | read -l context &&
         _tide_print_item kubectl $tide_kubectl_icon' ' (string replace -r '/(|default)$' '' $context)
+end
+
+function update_ollama_models
+    for model in (ollama list | tail -n +2 | awk '{print $1}')
+        echo "Pulling model: $model"
+        ollama pull $model
+    end
+end
+
+function chead
+    cat $argv[2] | head -n $argv[3] | bat - -l $argv[1]
 end
