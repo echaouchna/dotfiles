@@ -3,7 +3,7 @@ local wezterm = require("wezterm")
 return {
 	font = wezterm.font({
 		-- family = "MesloLGS NF",
-		family = "Monolisa",
+		family = "Monolisa Zou",
 		weight = "Medium",
 	}),
 	font_size = 14.0,
