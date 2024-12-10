@@ -7,6 +7,10 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "icon_theme": "Material Icon Theme",
+  "features": {
+    "edit_prediction_provider": "zed"
+  },
   "ssh_connections": [
     {
       "host": "dev-hetzner",
@@ -31,16 +35,19 @@
     "dark": "Tokyo Night"
   },
   "relative_line_numbers": true,
-  "buffer_font_size": 15,
-  "font_family": "BerkeleyMono Nerd Font",
+  "buffer_font_size": 16,
+  // "font_family": "BerkeleyMono Nerd Font",
+  "font_family": "TX-02",
   // "font_family": "MonoLisa",
   "buffer_font_weight": 500,
-  "buffer_font_family": "BerkeleyMono Nerd Font",
+  // "buffer_font_family": "BerkeleyMono Nerd Font",
+  "buffer_font_family": "TX-02",
   // "buffer_font_family": "MonoLisa",
   "buffer_font_fallbacks": ["Cascadia Code NF"],
   "terminal": {
     "dock": "bottom",
-    "font_family": "BerkeleyMono Nerd Font",
+    // "font_family": "BerkeleyMono Nerd Font",
+    "font_family": "TX-02",
     // "font_family": "MonoLisa",
     // "blinking": "on"
     "shell": {

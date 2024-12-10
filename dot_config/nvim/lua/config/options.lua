@@ -10,3 +10,6 @@ vim.opt.clipboard = "unnamedplus"
 
 -- Set mouse to a
 vim.opt.mouse = "a"
+
+-- Set wrap to true
+vim.opt.wrap = true
