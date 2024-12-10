@@ -3,19 +3,26 @@
 # theme = light:xcodelight,dark:tokyonight
 # theme = light:xcodelight,dark:xcodedarkhc
 # theme = catppuccin-mocha
+# theme = GruvboxDark
 theme = xcodedarkhc
 # theme = rose-pine
 # font-family = Monolisa Medium
-font-family = Berkley Mono
-font-size = 15
+# font-family = Berkley Mono
+font-family = TX-02
+window-title-font-family = TX-02
+# macos-titlebar-style = tabs
+font-size = 16
 background-blur-radius = 20
 mouse-hide-while-typing = true
 window-decoration = true
 keybind = global:ctrl+escape=toggle_quick_terminal
 macos-option-as-alt = left
-#copy-on-select = true
+# copy-on-select = true
 # font-thicken = true
 keybind = cmd+left=text:\x01
 keybind = cmd+right=text:\x05
 keybind = cmd+backspace=text:\x15
 # minimum-contrast = 1.13208
+auto-update-channel = tip
+# macos-icon = custom-style
+# macos-icon-frame = beige
