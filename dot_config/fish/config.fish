@@ -183,8 +183,13 @@ end
 function update_all
     set -l os (uname)
     if test "$os" = Darwin
-        brew update; and brew upgrade; and brew upgrade --greedy; and growl "brew update finished"
-        nvim +silent -c "Lazy update" +MasonUpdate +qall; and growl "vim plug update finished"
+        brew update
+        brew upgrade
+        brew link --overwrite node --force
+        brew upgrade --greedy
+        growl "brew update finished"
+        nvim +silent -c "Lazy update" +MasonUpdate +qall
+        growl "vim plug update finished"
     end
     topgrade --disable chezmoi --disable platformio_core --disable pnpm
 end
@@ -231,3 +236,7 @@ end
 function chead
     cat $argv[2] | head -n $argv[3] | bat - -l $argv[1]
 end
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init2.fish 2>/dev/null || :
