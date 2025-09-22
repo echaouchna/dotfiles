@@ -8,7 +8,8 @@
 # theme = rose-pine
 # theme = niji
 # theme = GruvboxDarkHard
-theme = xcodedarkhc
+# theme = xcodedarkhc
+theme = Xcode Dark hc
 
 ### Font
 # font-family = Monolisa Medium
