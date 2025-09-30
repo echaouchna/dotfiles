@@ -3,9 +3,12 @@
 -- Add any additional autocmds here
 
 -- Set tfvars syntax to tf
-vim.api.nvim_exec([[
+vim.api.nvim_exec(
+  [[
   augroup tfvars
     autocmd!
     autocmd BufNewFile,BufRead *.tfvars set filetype=tf
   augroup END
-]], false)
+]],
+  false
+)

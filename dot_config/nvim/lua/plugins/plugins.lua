@@ -99,6 +99,9 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
+      servers = {
+        copilot = {},
+      },
       setup = {
         rust_analyzer = function()
           return true
