@@ -72,7 +72,7 @@ return {
       {
         "<leader>an",
         function()
-          require("sidekick.cli").select_tool()
+          require("sidekick.cli").select()
         end,
         mode = { "n" },
         desc = "Sidekick New Tool",
@@ -88,7 +88,7 @@ return {
       {
         "<leader>ap",
         function()
-          require("sidekick.cli").select_prompt()
+          require("sidekick.cli").prompt()
         end,
         desc = "Sidekick Ask Prompt",
         mode = { "n", "v" },
